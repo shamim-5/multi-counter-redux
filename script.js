@@ -17,7 +17,7 @@ const addEl = document.getElementById("add");
 // initial state
 let initialState = [
   {
-    id: uId,
+    id: 1,
     value: 0,
   },
 ];
@@ -60,12 +60,15 @@ const add = (id, value) => {
 function counterReducer(state = initialState, action) {
   if (action.type === INCREMENT) {
     const exists = state.filter((i) => i.id === action.payload.id);
+    const rest = state.filter((rId) => rId.id !== action.payload.id);
+    // console.log({ exists, rest }, action.payload.id);
 
     return [
       {
         ...exists[0],
         value: exists[0].value + action.payload.value,
       },
+      ...rest,
     ];
   } else if (action.type === DECREMENT) {
     const exists = state.filter((i) => i.id === action.payload.id);
@@ -87,6 +90,7 @@ function counterReducer(state = initialState, action) {
       },
     ];
   } else if (action.type === ADD) {
+    myFn();
     addCounter(0);
     const exists = state.filter((i) => i.id);
     return (initialState = [
@@ -158,6 +162,7 @@ resetEl.addEventListener("click", () => {
 addEl.addEventListener("click", () => {
   store.dispatch(add(uId, 0));
   console.log(initialState);
+  console.log(uId);
 });
 
 function addCounter(c) {
