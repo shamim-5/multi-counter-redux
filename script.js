@@ -72,13 +72,14 @@ function counterReducer(state = initialState, action) {
     ];
   } else if (action.type === DECREMENT) {
     const exists = state.filter((i) => i.id === action.payload.id);
-    console.log(incrementEl2);
+    const rest = state.filter((rId) => rId.id !== action.payload.id);
 
     return [
       {
         ...exists[0],
         value: exists[0].value - action.payload.value,
       },
+      ...rest,
     ];
   } else if (action.type === RESET) {
     const exists = state.filter((i) => i.id);
@@ -90,9 +91,9 @@ function counterReducer(state = initialState, action) {
       },
     ];
   } else if (action.type === ADD) {
-    myFn();
     addCounter(0);
-    const exists = state.filter((i) => i.id);
+    myFn();
+    console.log(uId);
     return (initialState = [
       ...state,
       {
