@@ -1,11 +1,18 @@
 // select dom elements
-const incrementEl = document.getElementById("increment");
-const decrementEl = document.getElementById("decrement");
-const counterEl = document.getElementById("counter");
+// const incrementEl = document.getElementById("increment");
+// const decrementEl = document.getElementById("decrement");
+// console.log({ ID });
+currentId();
+const identify = getCounterId();
+console.log(identify);
+let counterEl;
+function cl() {
+  counterEl = document.getElementById(`counter_${ID}`);
+}
+cl();
 myFn();
 
-const incrementEl2 = document.getElementById(incrementId);
-console.log(incrementId);
+const incrementEl2 = document.getElementById(clickedEventId);
 
 const decrementEl2 = document.getElementById(decrementId);
 const counterEl2 = document.getElementById(counterId);
@@ -17,7 +24,7 @@ const addEl = document.getElementById("add");
 // initial state
 let initialState = [
   {
-    id: 1,
+    id: "ir73pf2prxh",
     value: 0,
   },
 ];
@@ -121,26 +128,26 @@ store.subscribe(render);
 // find id and if not found create one
 const isExists = initialState.find((eId) => eId.id);
 
-console.log({ incrementId }, { uId });
-console.log({ initialState });
+// console.log({ clickedEventId }, { uId });
+// console.log({ initialState });
 
 function myFn() {
   uId = Math.random().toString(36).slice(2);
-  incrementId = `increment_${uId}`;
+  clickedEventId = `increment_${uId}`;
   decrementId = `decrement_${uId}`;
   counterId = `counter_${uId}`;
   cSection = `cSection_${uId}`;
 }
 
 // button click listeners
-incrementEl.addEventListener("click", () => {
-  console.log({ incrementEl });
+// incrementEl.addEventListener("click", () => {
+//   console.log({ incrementEl });
 
-  store.dispatch(increment(isExists.id, 5));
-});
-decrementEl.addEventListener("click", () => {
-  store.dispatch(decrement(isExists.id, 10));
-});
+//   store.dispatch(increment(isExists.id, 5));
+// });
+// decrementEl.addEventListener("click", () => {
+//   store.dispatch(decrement(isExists.id, 10));
+// });
 
 // {
 //   incrementEl2 &&
@@ -156,18 +163,53 @@ decrementEl.addEventListener("click", () => {
 //     });
 // }
 
+// dynamic id handle
+document.querySelectorAll("[id^='increment']").forEach(function () {
+  this.addEventListener("click", (e) => favToggle(e));
+
+  getCounterId();
+});
+
+function currentId(i = "ir73pf2prxh") {
+  ID = i;
+  console.log(ID);
+  return ID;
+}
+
+function favToggle(e) {
+  const clickedEventId = e.target.id.slice(10);
+  currentId(clickedEventId);
+  cl();
+  getCounterId(clickedEventId);
+  console.log({ counterEl }, ID);
+
+  // getInitialStateId();
+}
+
+function getCounterId(clickedEventId) {
+  const cElem = document.querySelector(`#counter_${clickedEventId}`);
+  console.log(cElem);
+  console.log(ID);
+  // const counter = cElem.find((c) => c.id === clickedEventId);
+  // console.log({ counter });
+}
+
+function getInitialStateId() {
+  const iId = initialState.map((sId) => console.log(sId));
+}
+
 resetEl.addEventListener("click", () => {
   store.dispatch(reset(isExists.id, 0));
 });
 
 addEl.addEventListener("click", () => {
   store.dispatch(add(uId, 0));
-  console.log(initialState);
-  console.log(uId);
+  // console.log(initialState);
+  // console.log(uId);
 });
 
 function addCounter(c) {
-  const counterSection = document.getElementById("counter-section");
+  const counterSection = document.getElementById("c_section");
 
   const newDiv = document.createElement("div");
   newDiv.setAttribute("id", `${cSection}`);
@@ -175,7 +217,7 @@ function addCounter(c) {
         <div class="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
           <div id="${counterId}" class="text-2xl font-semibold">${c}</div>
           <div class="flex space-x-3">
-            <button id="${incrementId}" class="bg-indigo-400 text-white px-3 py-2 rounded shadow">Increment</button>
+            <button id="${clickedEventId}" class="bg-indigo-400 text-white px-3 py-2 rounded shadow">Increment</button>
             <button id="${decrementId}" class="bg-red-400 text-white px-3 py-2 rounded shadow">Decrement</button>
           </div>
         </div>
