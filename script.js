@@ -154,7 +154,6 @@ function favToggle(e) {
 
 function getCounterId(clickedEventId) {
   const cElem = document.querySelectorAll("[id^='counter']").forEach((i) => (i.innerText = 0));
-  console.log(cElem);
 }
 
 resetEl.addEventListener("click", () => {
