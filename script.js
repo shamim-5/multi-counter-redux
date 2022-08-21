@@ -181,15 +181,21 @@ function favToggle(e) {
   currentId(clickedEventId);
   cl();
   getCounterId(clickedEventId);
-  console.log({ counterEl }, ID);
-
+  console.log({ counterEl }, ID, e);
   // getInitialStateId();
+
+  // store dispatch
+  const pointTarget = e.target.id.slice(0, 9);
+  if (pointTarget === "increment") {
+    store.dispatch(increment(ID, 10));
+  } else if (pointTarget === "decrement") {
+    store.dispatch(decrement(ID, 5));
+  }
 }
 
 function getCounterId(clickedEventId) {
-  const cElem = document.querySelector(`#counter_${clickedEventId}`);
-  console.log(cElem);
-  console.log(ID);
+  // const cElem = document.querySelector(`#counter_${clickedEventId}`);
+  // console.log(cElem);
   // const counter = cElem.find((c) => c.id === clickedEventId);
   // console.log({ counter });
 }
