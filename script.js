@@ -1,10 +1,5 @@
-// select dom elements
-// const incrementEl = document.getElementById("increment");
-// const decrementEl = document.getElementById("decrement");
-// console.log({ ID });
 currentId();
-const identify = getCounterId();
-console.log(identify);
+// const identify = getCounterId();
 let counterEl;
 function cl() {
   counterEl = document.getElementById(`counter_${ID}`);
@@ -68,7 +63,6 @@ function counterReducer(state = initialState, action) {
   if (action.type === INCREMENT) {
     const exists = state.filter((i) => i.id === action.payload.id);
     const rest = state.filter((rId) => rId.id !== action.payload.id);
-    // console.log({ exists, rest }, action.payload.id);
 
     return [
       {
@@ -89,18 +83,14 @@ function counterReducer(state = initialState, action) {
       ...rest,
     ];
   } else if (action.type === RESET) {
-    const exists = state.filter((i) => i.id);
-
-    return [
-      {
-        ...exists[0],
-        value: action.payload.value,
-      },
-    ];
+    const exists = state.map((i) => {
+      return { id: i.id, value: 0 };
+    });
+    console.log(exists);
+    return (initialState = [...exists]);
   } else if (action.type === ADD) {
     addCounter(0);
     myFn();
-    console.log(uId);
     return (initialState = [
       ...state,
       {
@@ -128,9 +118,6 @@ store.subscribe(render);
 // find id and if not found create one
 const isExists = initialState.find((eId) => eId.id);
 
-// console.log({ clickedEventId }, { uId });
-// console.log({ initialState });
-
 function myFn() {
   uId = Math.random().toString(36).slice(2);
   clickedEventId = `increment_${uId}`;
@@ -139,40 +126,15 @@ function myFn() {
   cSection = `cSection_${uId}`;
 }
 
-// button click listeners
-// incrementEl.addEventListener("click", () => {
-//   console.log({ incrementEl });
-
-//   store.dispatch(increment(isExists.id, 5));
-// });
-// decrementEl.addEventListener("click", () => {
-//   store.dispatch(decrement(isExists.id, 10));
-// });
-
-// {
-//   incrementEl2 &&
-//     incrementEl2.addEventListener("click", () => {
-//       console.log(incrementEl2);
-//       store.dispatch(increment(isExists.id, 5));
-//     });
-// }
-// {
-//   decrementEl2 &&
-//     decrementEl2.addEventListener("click", () => {
-//       store.dispatch(decrement(isExists.id, 10));
-//     });
-// }
-
 // dynamic id handle
 document.querySelectorAll("[id^='increment']").forEach(function () {
   this.addEventListener("click", (e) => favToggle(e));
 
-  getCounterId();
+  // getCounterId();
 });
 
 function currentId(i = "ir73pf2prxh") {
   ID = i;
-  console.log(ID);
   return ID;
 }
 
@@ -180,8 +142,7 @@ function favToggle(e) {
   const clickedEventId = e.target.id.slice(10);
   currentId(clickedEventId);
   cl();
-  getCounterId(clickedEventId);
-  console.log({ counterEl }, ID, e);
+  // getCounterId(clickedEventId);
   // getInitialStateId();
 
   // store dispatch
@@ -193,16 +154,20 @@ function favToggle(e) {
   }
 }
 
-function getCounterId(clickedEventId) {
-  // const cElem = document.querySelector(`#counter_${clickedEventId}`);
-  // console.log(cElem);
-  // const counter = cElem.find((c) => c.id === clickedEventId);
-  // console.log({ counter });
-}
+// function getCounterId(clickedEventId) {
+//   const cElem = document.querySelector(`#counter_${clickedEventId}`);
+//   console.log(cElem);
+//   // const counter = cElem.find((c) => c.id === clickedEventId);
+//   // console.log({ counter });
+// }
 
-function getInitialStateId() {
-  const iId = initialState.map((sId) => console.log(sId));
-}
+// function getInitialStateId() {
+//   const iId = initialState.map((i) => {
+
+//   return i.value = 0;
+//   })
+//   console.log(iId);
+// }
 
 resetEl.addEventListener("click", () => {
   store.dispatch(reset(isExists.id, 0));
@@ -210,8 +175,6 @@ resetEl.addEventListener("click", () => {
 
 addEl.addEventListener("click", () => {
   store.dispatch(add(uId, 0));
-  // console.log(initialState);
-  // console.log(uId);
 });
 
 function addCounter(c) {
