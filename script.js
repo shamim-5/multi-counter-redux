@@ -45,10 +45,9 @@ const decrement = (id, value) => {
   };
 };
 
-const reset = (id, value) => {
+const reset = () => {
   return {
     type: RESET,
-    payload: { id, value },
   };
 };
 
@@ -86,7 +85,8 @@ function counterReducer(state = initialState, action) {
     const exists = state.map((i) => {
       return { id: i.id, value: 0 };
     });
-    console.log(exists);
+    getCounterId();
+
     return (initialState = [...exists]);
   } else if (action.type === ADD) {
     addCounter(0);
@@ -142,8 +142,6 @@ function favToggle(e) {
   const clickedEventId = e.target.id.slice(10);
   currentId(clickedEventId);
   cl();
-  // getCounterId(clickedEventId);
-  // getInitialStateId();
 
   // store dispatch
   const pointTarget = e.target.id.slice(0, 9);
@@ -154,23 +152,13 @@ function favToggle(e) {
   }
 }
 
-// function getCounterId(clickedEventId) {
-//   const cElem = document.querySelector(`#counter_${clickedEventId}`);
-//   console.log(cElem);
-//   // const counter = cElem.find((c) => c.id === clickedEventId);
-//   // console.log({ counter });
-// }
-
-// function getInitialStateId() {
-//   const iId = initialState.map((i) => {
-
-//   return i.value = 0;
-//   })
-//   console.log(iId);
-// }
+function getCounterId(clickedEventId) {
+  const cElem = document.querySelectorAll("[id^='counter']").forEach((i) => (i.innerText = 0));
+  console.log(cElem);
+}
 
 resetEl.addEventListener("click", () => {
-  store.dispatch(reset(isExists.id, 0));
+  store.dispatch(reset());
 });
 
 addEl.addEventListener("click", () => {
